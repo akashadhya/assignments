@@ -1,74 +1,36 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include<math.h>
+#include <string.h>
 
+void reverse_recursive(char *str, int start, int end) {
+    if (start >= end) return;
 
-double calculateMean(int array[], int size) {
-  int sum = 0;
-  for (int i = 0; i < size; i++) {
-    sum += array[i];
-  }
-  return (double)sum / size;
+    char temp = str[start];
+    str[start] = str[end];
+    str[end] = temp;
+
+    reverse_recursive(str, start + 1, end - 1);
 }
 
-
-double calculateMedian(int array[], int size) {
-  int temp;
-
-  for (int i = 0; i < size - 1; i++) {
-    for (int j = i + 1; j < size; j++) {
-      if (array[i] > array[j]) {
-        temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-      }
+void reverse_non_recursive(char *str) {
+    int len = strlen(str);
+    for (int i = 0; i < len / 2; i++) {
+        char temp = str[i];
+        str[i] = str[len - i - 1];
+        str[len - i - 1] = temp;
     }
-  }
-
-  if (size % 2 == 0) {
-    return (array[size / 2 - 1] + array[size / 2]) / 2.0;
-  } else {
-    return array[size / 2];
-  }
-}
-
-
-int calculateMode(int array[], int size) {
-  int maxCount = 0;
-  int mode = array[0];
-  int count;
-  for (int i = 0; i < size; i++) {
-    count = 0;
-    for (int j = 0; j < size; j++) {
-      if (array[i] == array[j]) {
-        count++;
-      }
-    }
-    if (count > maxCount) {
-      maxCount = count;
-      mode = array[i];
-    }
-  }
-  return mode;
-}
-
-double calculateStandardDeviation(int array[], int size) {
-  double mean = calculateMean(array, size);
-  double sum = 0;
-  for (int i = 0; i < size; i++) {
-    sum += (array[i] - mean) * (array[i] - mean);
-  }
-  return sqrt(sum / size);
 }
 
 int main() {
-  int array[] = {1, 2, 3, 4, 5};
-  int size = sizeof(array) / sizeof(array[0]);
+    char text[100];
+    printf("Enter a string: ");
+    fgets(text, sizeof(text), stdin);
+    text[strcspn(text, "\n")] = '\0';
 
-  printf("Mean: %.2f\n", calculateMean(array, size));
-  printf("Median: %.2f\n", calculateMedian(array, size));
-  printf("Mode: %d\n", calculateMode(array, size));
-  printf("Standard Deviation: %.2f\n", calculateStandardDeviation(array, size));
+    reverse_non_recursive(text);
+    printf("Reversed (non-recursive): %s\n", text);
 
-  return 0;
+    reverse_recursive(text, 0, strlen(text) - 1);
+    printf("Reversed (recursive): %s\n", text);
+
+    return 0;
 }

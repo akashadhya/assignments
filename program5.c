@@ -1,33 +1,34 @@
-// Online C compiler to run C program online
 #include <stdio.h>
-#define N 100
-int main() {
-    int array[N];
-    int n;
-    int i;
-    int elem;
-    printf("Enter the number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements: ");
-    for(i=0; i<n; i++){
-        scanf("%d", &array[i]);
-    }
-    
-    printf("\nSo the array is: ");
-    for(i=0; i<n; i++){
-        printf("%d ", array[i]);
-    }
-    printf("\n");
-    
-    printf("Enter the search element: ");
-    scanf("%d", &elem);
-    
-    for(i=0; i<n; i++){
-        if(array[i] == elem){
-            printf("Search element found at %d position", i+1);
-            break;
+
+void sort_array(int arr[], int size) {
+    for (int i = 0; i < size / 2; i++) {
+        for (int j = i + 1; j < size / 2; j++) {
+            if (arr[i] < arr[j]) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
         }
     }
-    if(i==n) printf("Search element not found.");
+    for (int i = size / 2; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] > arr[j]) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int arr[10] = {5, 2, 9, 1, 6, 7, 8, 3, 4, 10};
+    sort_array(arr, 10);
+
+    printf("Modified Array: ");
+    for (int i = 0; i < 10; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
     return 0;
 }

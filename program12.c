@@ -1,53 +1,48 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-void display(int mat[][3], int row, int col) {
-	printf("\n");
-	for(int i=0; i<row; i++) {
-		for(int j=0; j<col; j++) {
-			printf("%d ", mat[i][j]);
-		}
-		printf("\n");
-	}
+int is_substring(const char *str1, const char *str2) {
+    int len1 = strlen(str1), len2 = strlen(str2);
+
+    for (int i = 0; i <= len1 - len2; i++) {
+        int j;
+        for (j = 0; j < len2; j++) {
+            if (str1[i + j] != str2[j]) break;
+        }
+        if (j == len2) return i + 1;
+    }
+    return 0;
 }
-
-void matrixMul(int mat1[][3], int mat2[][3]) {
-	int mat[3][3]= {0};
-
-	for(int i=0; i<3; i++) {
-		for(int j=0; j<3; j++) {
-			for(int k=0; k<3; k++) {
-				mat[i][j] += mat1[i][k] * mat2[k][j];
-			}
-		}
-	}
-
-	printf("The multiplication matrix is : \n");
-	display(mat, 3,3);
-}
-
-
 
 int main() {
-	int mat1[3][3], mat2[3][3];
-	printf("Enter elements of the first matrix : \n");
+    char *str1, *str2;
+    int len1, len2;
 
-	for(int i=0; i<3; i++) {
-		for(int j=0; j<3; j++) {
-			scanf("%d", &mat1[i][j]);
-		}
-	}
+    printf("Enter the length of the first string: ");
+    scanf("%d", &len1);
+    getchar();
 
-	printf("\nEnter the elements of the second array:");
-	for(int i=0; i<3; i++) {
-		for(int j=0; j<3; j++) {
-			scanf("%d", &mat2[i][j]);
-		}
-	}
-	printf("Matrix 1: \n");
-	display(mat1, 3, 3);
-	printf("Matrix 2: \n");
-	display(mat2, 3, 3);
+    str1 = (char *)malloc((len1 + 1) * sizeof(char));
+    printf("Enter the first string: ");
+    fgets(str1, len1 + 1, stdin);
 
-	matrixMul(mat1, mat2);
+    printf("Enter the length of the second string: ");
+    scanf("%d", &len2);
+    getchar();
 
+    str2 = (char *)malloc((len2 + 1) * sizeof(char));
+    printf("Enter the second string: ");
+    fgets(str2, len2 + 1, stdin);
+
+    int pos = is_substring(str1, str2);
+    if (pos) {
+        printf("Substring found at position: %d\n", pos);
+    } else {
+        printf("Substring not found.\n");
+    }
+
+    free(str1);
+    free(str2);
+    return 0;
 }

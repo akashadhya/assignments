@@ -1,25 +1,43 @@
-// Online C compiler to run C program online
 #include <stdio.h>
-#define N 100
-int main() {
-    char *str="qwertyuioplkjhgfdsazxcvbnm";
-    char *ptr = str;
-    int i;
-    int vowel=0, consonent=0;
-    for(i=0; i<N; i++){
-        if((*ptr >= 'a' && *ptr <= 'z') || (*ptr >= 'A' && *ptr <= 'Z')){
-            if(*ptr == 'a'|| *ptr == 'e'|| *ptr == 'i'|| *ptr == 'o'|| *ptr == 'u' || *ptr == 'A'|| *ptr == 'E'|| *ptr == 'I'|| *ptr == 'O'|| *ptr == 'U' ){
-                vowel++;
-            }
-            else{
-                consonent++;
-            }
-        *ptr++;
+#include <stdbool.h>
+
+void read_matrix(int mat[3][3], int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            printf("Enter element [%d][%d]: ", i, j);
+            scanf("%d", &mat[i][j]);
         }
     }
-    
-    printf("Number of vowels %d", vowel);
-    printf("\nNumber of consonents %d", consonent);
-    
+}
+
+void transpose_matrix(int mat[3][3], int trans[3][3], int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            trans[j][i] = mat[i][j];
+        }
+    }
+}
+
+bool is_symmetric(int mat[3][3], int size) {
+    int trans[3][3];
+    transpose_matrix(mat, trans, size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (mat[i][j] != trans[i][j]) return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    int mat[3][3];
+    read_matrix(mat, 3);
+
+    if (is_symmetric(mat, 3)) {
+        printf("The matrix is symmetric.\n");
+    } else {
+        printf("The matrix is not symmetric.\n");
+    }
+
     return 0;
 }

@@ -1,34 +1,33 @@
-// Online C compiler to run C program online
 #include <stdio.h>
-#define N 100
+#include <ctype.h>
+#include <string.h>
+
+void Vowel_Cons_Count(const char *str, int *vowel_count, int *consonant_count) {
+    *vowel_count = 0;
+    *consonant_count = 0;
+
+    for (int i = 0; str[i] != '\0' && str[i] != '#'; i++) {
+        char ch = tolower(str[i]);
+        if (ch >= 'a' && ch <= 'z') {
+            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                (*vowel_count)++;
+            } else {
+                (*consonant_count)++;
+            }
+        }
+    }
+}
+
 int main() {
-    int array[N];
-    int n;
-    int i;
-    int max=0, min= 0xffff;
-    printf("Enter the number of elements: ");
-    scanf("%d", &n);
-    printf("Enter elements: ");
-    for(i=0; i<n; i++){
-        scanf("%d", &array[i]);
-    }
-    
-    printf("\nSo the array is: ");
-    for(i=0; i<n; i++){
-        printf("%d ", array[i]);
-    }
-    
-    for(i=0; i<n; i++){
-        if(array[i] > max){
-            max = array[i];
-            continue;
-        }
-        if(array[i] < min){
-            min = array[i];
-        }
-    }
-    
-    printf("\nThe max and min of the array is : ");
-    printf("%d and %d", max, min);
+    char text[100];
+    int vowels, consonants;
+
+    printf("Enter a line of text (end with #): ");
+    fgets(text, sizeof(text), stdin);
+
+    Vowel_Cons_Count(text, &vowels, &consonants);
+
+    printf("Vowels: %d, Consonants: %d\n", vowels, consonants);
+
     return 0;
 }

@@ -1,40 +1,44 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void display(int mat[][3], int row, int col){
-    printf("\n");
-    for(int i=0; i<row; i++){
-        for(int j=0; j<col; j++){
-            printf("%d ", mat[i][j]);
+void find_average_and_median(int *arr, int size, float *average, float *median) {
+    int sum = 0;
+    for (int i = 0; i < size; i++) sum += arr[i];
+    *average = sum / (float)size;
+
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] > arr[j]) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
         }
-        printf("\n");
     }
+
+    *median = (size % 2 == 0) ? (arr[size / 2 - 1] + arr[size / 2]) / 2.0 : arr[size / 2];
 }
 
+int main() {
+    int size;
+    printf("Enter number of elements: ");
+    scanf("%d", &size);
 
-void transpose(int mat[][3]){
-    int temp[3][3];
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            temp[j][i] = mat[i][j];
-        }
+    int *arr = (int *)malloc(size * sizeof(int));
+    if (!arr) {
+        printf("Memory allocation failed.\n");
+        return 1;
     }
-    
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            mat[i][j] = temp[i][j];
-        }
-    }
-}
 
-int main(){
-    int matrix[][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
+    printf("Enter the elements:\n");
+    for (int i = 0; i < size; i++) scanf("%d", &arr[i]);
 
-    printf("Before transposeing the matrix is : \n");
-    display(matrix, 3, 3);
+    float average, median;
+    find_average_and_median(arr, size, &average, &median);
 
-    printf("After transposeing the matrix is : \n");
-    transpose(matrix);
-    display(matrix, 3, 3);
+    printf("Average: %.2f\n", average);
+    printf("Median: %.2f\n", median);
 
+    free(arr);
     return 0;
 }
